@@ -1,5 +1,6 @@
 #!/bin/sh
 
-gem install bundler
+yum install -y ruby-devel gcc-c++
+gem install bundler io-console itamae
 bundle install --path vendor/bundle
 itamae local recipe.rb

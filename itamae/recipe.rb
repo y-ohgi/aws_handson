@@ -87,6 +87,7 @@ cd /usr/share/nginx
 composer create-project --prefer-dist laravel/laravel
 mv laravel app
 chown -R root:nginx /usr/share/nginx
+chmod -R 777 app/storage
 EOL
 end
 
