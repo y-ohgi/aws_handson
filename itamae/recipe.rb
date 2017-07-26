@@ -46,6 +46,11 @@ template "/etc/nginx/nginx.conf" do
   group "root"
 end
 
+# nginxの起動と自動起動の設定
+service 'nginx' do
+  action [:enable, :start]
+end
+
 ### php
 # phpのインストール
 package 'php70'
