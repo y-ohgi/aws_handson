@@ -27,6 +27,7 @@ remote_file "/usr/share/emacs/site-lisp/site-start.d/init.el" do
   source "files/.emacs.d/init.el"
 end
 
+### nginx
 # nginxのインストール
 package 'nginx'
 
@@ -45,7 +46,8 @@ template "/etc/nginx/nginx.conf" do
   group "root"
 end
 
-# nginxのインストール
+### php
+# phpのインストール
 package 'php70'
 package 'php70-fpm'
 package 'php70-mysqlnd'
@@ -64,3 +66,28 @@ end
 service 'php-fpm' do
   action [:enable, :start]
 end
+
+### laravel
+# composerのインストール
+# yumのアップデート
+execute 'install composer' do
+  user "root"
+  command <<-EOL
+curl -sS https://getcomposer.org/installer | sudo php
+cp composer.phar /usr/local/bin/composer
+ln -s /usr/local/bin/composer /usr/bin/composer
+EOL
+end
+
+# laravelの配置
+execute 'create laravel project' do
+  user "root"
+  command <<-EOL
+cd /usr/share/nginx
+composer create-project --prefer-dist laravel/laravel
+mv laravel app
+chown -R root:nginx /usr/share/nginx
+EOL
+end
+
+
